@@ -64,6 +64,7 @@ def submitAnalyzer():
     nfiles = {}
     nevents = {}
     datasetfiles = {}
+    dataset_custom_name = {}
 
     with open(opt.DATASETS, "r") as datasetfile:
         for line in datasetfile:
@@ -79,6 +80,8 @@ def submitAnalyzer():
 
             datasets.append(dataset)
             cross_section[dataset] = float(line.split()[1])
+            if len(line.split()) > 2:
+                dataset_custom_name[dataset] = line.split()[2]
             
             #cmd = './das_client.py --query="file dataset='+dataset+'" --limit=10 | grep ".root"'
             #output = processCmd(cmd)
@@ -98,17 +101,17 @@ def submitAnalyzer():
             #print dataset,'xs:',cross_section[dataset],'nfiles:',nfiles[dataset]#,'nevents:',nevents[dataset]
             print dataset,'xs:',cross_section[dataset]
 
-
     # submit the jobs
     print '[Submitting jobs]'
     jobCount=0
 
     for dataset in datasets:
-        
-        #continue
-        filename = dataset.split('/')[1]+'_'+dataset.split('/')[2]
 
-        cfgfile = dataset.lstrip('/')
+        #continue
+        if dataset not in dataset_custom_name:
+            cfgfile = dataset.lstrip('/')
+        else:
+            cfgfile = dataset_custom_name[dataset]
         cfgfile = cfgfile.replace('/','_')+'.py'
 
         cmd = 'cp '+cfgtemplate+' '+outDir+'/cfg/'+cfgfile
@@ -128,10 +131,10 @@ def submitAnalyzer():
         cmd = "sed -i 's~DUMMYFILELIST~ ~g' "+outDir+'/cfg/'+cfgfile
         output = processCmd(cmd)
 
-        filename = dataset.split('/')[1]+'_'+dataset.split('/')[2]
-        if (len(filename)>99):
-          newfilename = filename.split('-94X')[0]
-          filename = newfilename
+        if dataset not in dataset_custom_name:
+            filename = dataset.split('/')[1]+'_'+dataset.split('/')[2]
+        else:
+            filename = dataset_custom_name[dataset]
 
         cmd  = "sed -i 's~DUMMYFILENAME~"+filename+"~g' "+outDir+'/cfg/'+cfgfile
         output = processCmd(cmd)
