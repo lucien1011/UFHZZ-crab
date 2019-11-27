@@ -9,7 +9,7 @@ rm *.DAT
 rm br.sm*
 rm -rf Pdfdata
 cp -r ${CMSSW_BASE}/src/ZZMatrixElement/MELA/data/Pdfdata ${CMSSW_BASE}/src/
-MCFM_LIBS_PATH=${CMSSW_BASE}/src/ZZMatrixElement/MELA/data/slc6_amd64_gcc630/
+MCFM_LIBS_PATH=${CMSSW_BASE}/src/ZZMatrixElement/MELA/data/slc6_amd64_gcc700/
 export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${MCFM_LIBS_PATH}
 echo ${LD_LIBRARY_PATH}
 echo "================= DONE =========================="
