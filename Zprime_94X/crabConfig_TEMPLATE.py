@@ -42,7 +42,7 @@ else:
   else: config.Data.unitsPerJob = 1
 
 config.Data.publication = False
-config.Data.outLFNDirBase = '/store/user/%s/HZZdNTuple/JOBTAG/' % (getUsernameFromSiteDB())
+config.Data.outLFNDirBase = '/store/user/klo/HZZdNTuple/JOBTAG/'
 config.Data.ignoreLocality = True
 config.Data.allowNonValidInputDataset = True
 
